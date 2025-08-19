@@ -1,0 +1,39 @@
+version: '3.9'
+services:
+  db:
+    image: postgis/postgis:15-3.4
+    container_name: ancientmaps_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ancient
+      POSTGRES_PASSWORD: maps
+      POSTGRES_DB: ancientmaps
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build: ./backend
+    container_name: ancientmaps_api
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://ancient:maps@db:5432/ancientmaps
+    ports:
+      - "3000:3000"
+
+  tegola:
+    image: ghcr.io/go-spatial/tegola:latest
+    container_name: ancientmaps_tegola
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      - ./infra/tegola:/etc/tegola
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
