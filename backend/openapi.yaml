@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: Ancient Maps API
+  version: 0.1.0
+paths:
+  /places:
+    get:
+      summary: Get places by year and bounding box
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: integer
+          required: true
+          description: Year (negative for BC, no year 0)
+        - in: query
+          name: bbox
+          schema:
+            type: string
+          description: Bounding box (minLon,minLat,maxLon,maxLat)
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Search term
+      responses:
+        '200':
+          description: List of places
+  /roads:
+    get:
+      summary: Get roads by year and bounding box
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: bbox
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of roads
+  /rivers:
+    get:
+      summary: Get rivers by year and bounding box
+      parameters:
+        - in: query
+          name: year
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: bbox
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of rivers
+  /route:
+    post:
+      summary: Calculate route
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                year:
+                  type: integer
+                mode:
+                  type: string
+                waypoints:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: number
+      responses:
+        '200':
+          description: Route result
+  /units/convert:
+    get:
+      summary: Convert units
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+        - in: query
+          name: to
+          schema:
+            type: string
+        - in: query
+          name: value
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Conversion result
