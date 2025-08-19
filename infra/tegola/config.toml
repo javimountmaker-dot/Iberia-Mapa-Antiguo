@@ -1,0 +1,33 @@
+# Configuración de Tegola para servir teselas vectoriales y raster
+
+[webserver]
+port = ":8080"
+
+[[providers]]
+name = "postgis"
+type = "pg"
+host = "${DB_HOST}"
+port = "${DB_PORT}"
+database = "${DB_NAME}"
+user = "${DB_USER}"
+password = "${DB_PASS}"
+ssl_mode = "disable"
+srid = 4326
+
+[[layers]]
+name = "roads"
+provider = "postgis"
+geometry_field = "geom"
+id_field = "id"
+minzoom = 0
+maxzoom = 14
+sql = "SELECT id, geom, class FROM roads WHERE year_start <= {{.zoom}} AND year_end >= {{.zoom}}"
+
+[[layers]]
+name = "places"
+provider = "postgis"
+geometry_field = "geom"
+id_field = "id"
+minzoom = 0
+maxzoom = 14
+sql = "SELECT id, geom, name_anc FROM places WHERE year_start <= {{.zoom}} AND year_end >= {{.zoom}}"
