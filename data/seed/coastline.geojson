@@ -1,0 +1,24 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Southern Iberian Coastline",
+        "year_start": -500,
+        "year_end": 0
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-6.294, 36.537],
+          [-6.000, 36.950],
+          [-5.300, 36.900],
+          [-4.500, 36.700],
+          [-3.800, 36.800],
+          [-3.000, 37.000]
+        ]
+      }
+    }
+  ]
+}
