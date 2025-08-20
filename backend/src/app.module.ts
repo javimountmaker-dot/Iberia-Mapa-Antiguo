@@ -9,10 +9,12 @@ import { RiversController } from './rivers.controller';
 import { RiversService } from './rivers.service';
 import { UnitsController } from './units.controller';
 import { UnitsService } from './units.service';
+import { RouteController } from './route.controller';
+import { RouteService } from './route.service';
 
 @Module({
   imports: [],
-  controllers: [AppController, PlacesController, RoadsController, RiversController, UnitsController],
-  providers: [AppService, PlacesService, RoadsService, RiversService, UnitsService],
+  controllers: [AppController, PlacesController, RoadsController, RiversController, UnitsController, RouteController],
+  providers: [AppService, PlacesService, RoadsService, RiversService, UnitsService, RouteService],
 })
 export class AppModule {}
