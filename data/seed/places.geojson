@@ -1,0 +1,47 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name_anc": "Gadir",
+        "name_mod": "Cádiz",
+        "type": "city",
+        "year_start": -500,
+        "year_end": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-6.2814, 36.5297]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_anc": "Corduba",
+        "name_mod": "Córdoba",
+        "type": "city",
+        "year_start": -200,
+        "year_end": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-4.7794, 37.8882]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name_anc": "Emerita Augusta",
+        "name_mod": "Mérida",
+        "type": "city",
+        "year_start": -25,
+        "year_end": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-6.3450, 38.9161]
+      }
+    }
+  ]
+}
