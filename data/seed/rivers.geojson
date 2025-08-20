@@ -1,0 +1,21 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Guadalquivir",
+        "year_start": -500,
+        "year_end": 0
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-6.05, 36.9],
+          [-5.5, 37.5],
+          [-5.0, 38.0]
+        ]
+      }
+    }
+  ]
+}
