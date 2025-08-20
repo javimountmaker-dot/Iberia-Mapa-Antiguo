@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "class": "via_principal",
+        "year_start": -200,
+        "year_end": 0
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-6.2814, 36.5297],
+          [-4.7794, 37.8882]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "class": "via_principal",
+        "year_start": -50,
+        "year_end": 0
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-4.7794, 37.8882],
+          [-6.3450, 38.9161]
+        ]
+      }
+    }
+  ]
+}
