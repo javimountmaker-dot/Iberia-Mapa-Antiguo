@@ -1,0 +1,6 @@
+{
+  "name": "ancient-maps-dev",
+  "dockerFile": "Dockerfile",
+  "forwardPorts": [5432, 8080, 8081],
+  "postCreateCommand": "bash .devcontainer/postCreate.sh"
+}
