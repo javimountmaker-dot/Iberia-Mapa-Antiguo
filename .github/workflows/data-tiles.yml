@@ -1,0 +1,72 @@
+name: Data & Tiles (PostGIS + Tippecanoe)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "data/seed/**"
+      - "infra/scripts/**"
+      - ".github/workflows/data-tiles.yml"
+
+jobs:
+  build-tiles:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgis/postgis:15-3.4
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: ancientmaps
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d ancientmaps"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install GDAL and jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gdal-bin jq
+
+      - name: Install Tippecanoe
+        run: |
+          wget -q https://github.com/mapbox/tippecanoe/releases/download/1.36.0/tippecanoe-1.36.0.linux-x86_64.zip
+          unzip tippecanoe-1.36.0.linux-x86_64.zip -d $HOME/bin
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Load seed GeoJSON into PostGIS (ogr2ogr)
+        env:
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: ancientmaps
+          PGHOST: localhost
+          PGPORT: 5432
+        run: |
+          set -e
+          psql "host=$PGHOST port=$PGPORT dbname=$PGDATABASE user=$PGUSER password=$PGPASSWORD" -c "CREATE EXTENSION IF NOT EXISTS postgis;"
+          for LAYER in places roads rivers coastline; do
+            if [ -f "data/seed/${LAYER}.geojson" ]; then
+              echo "Cargando ${LAYER}..."
+              ogr2ogr -f "PostgreSQL" PG:"host=$PGHOST user=$PGUSER dbname=$PGDATABASE password=$PGPASSWORD port=$PGPORT" \
+                "data/seed/${LAYER}.geojson" -nln ${LAYER} -nlt PROMOTE_TO_MULTI -overwrite -lco GEOMETRY_NAME=geom
+            fi
+          done
+
+      - name: Build MBTiles (Tippecanoe)
+        run: |
+          mkdir -p tiles
+          jq -s '{type:"FeatureCollection", features:(.[0].features + .[1].features + .[2].features)}' \
+            data/seed/roads.geojson data/seed/rivers.geojson data/seed/places.geojson > data/seed/all.geojson
+          tippecanoe -o tiles/iberia.mbtiles -zg --drop-densest-as-needed --no-feature-limit --no-tile-size-limit data/seed/all.geojson
+
+      - name: Upload tiles artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: iberia-mbtiles
+          path: tiles/iberia.mbtiles
