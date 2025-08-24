@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  db:
+    image: postgis/postgis:15-3.4
+    container_name: ancientmaps-db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: ancientmaps
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata_codespaces:/var/lib/postgresql/data
+volumes:
+  pgdata_codespaces:
